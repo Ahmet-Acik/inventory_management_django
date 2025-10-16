@@ -3,6 +3,7 @@ from .models import Product
 from .forms import ProductForm
 from decimal import Decimal
 from .forms import ProductForm
+from django.urls import reverse
 
 class ProductModelTest(TestCase):
     def setUp(self):
@@ -24,7 +25,7 @@ class ProductModelTest(TestCase):
         self.assertEqual(product.price, Decimal('9.99'))  # Fix here
         self.assertEqual(product.quantity, 5)
         
-from django.urls import reverse
+
 
 class ProductViewTest(TestCase):
     def setUp(self):
