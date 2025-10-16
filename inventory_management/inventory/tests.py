@@ -26,7 +26,6 @@ class ProductModelTest(TestCase):
         self.assertEqual(product.quantity, 5)
         
 
-
 class ProductViewTest(TestCase):
     def setUp(self):
         Product.objects.create(
