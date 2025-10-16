@@ -91,4 +91,15 @@ class ProductViewTest(TestCase):
         response = self.client.post(reverse('product_delete', args=[product.pk]))
         self.assertEqual(response.status_code, 302)  # Redirect after deletion
         self.assertFalse(Product.objects.filter(name="View Product").exists())
-        
+
+from .forms import ProductForm
+
+class ProductFormTest(TestCase):
+    def test_invalid_price(self):
+        form = ProductForm(data={
+            'name': 'Invalid Product',
+            'description': 'Negative price',
+            'price': '-1.00',
+            'quantity': 1
+        })
+        self.assertFalse(form.is_valid())
