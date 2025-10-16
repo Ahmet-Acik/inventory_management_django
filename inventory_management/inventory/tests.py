@@ -1,5 +1,6 @@
 from django.test import TestCase
 from .models import Product
+from .forms import ProductForm
 from decimal import Decimal
 
 class ProductModelTest(TestCase):
@@ -93,13 +94,24 @@ class ProductViewTest(TestCase):
         self.assertFalse(Product.objects.filter(name="View Product").exists())
 
 from .forms import ProductForm
-
+        
 class ProductFormTest(TestCase):
-    def test_invalid_price(self):
+    def test_negative_price(self):
         form = ProductForm(data={
-            'name': 'Invalid Product',
-            'description': 'Negative price',
-            'price': '-1.00',
+            'name': 'Test Product',
+            'description': 'Test negative price',
+            'price': -1,
             'quantity': 1
         })
         self.assertFalse(form.is_valid())
+        self.assertIn('price', form.errors)
+
+    def test_negative_quantity(self):
+        form = ProductForm(data={
+            'name': 'Test Product',
+            'description': 'Test negative quantity',
+            'price': 1,
+            'quantity': -1
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn('quantity', form.errors)
