@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import Product
 from .forms import ProductForm
 from decimal import Decimal
+from .forms import ProductForm
 
 class ProductModelTest(TestCase):
     def setUp(self):
@@ -93,7 +94,6 @@ class ProductViewTest(TestCase):
         self.assertEqual(response.status_code, 302)  # Redirect after deletion
         self.assertFalse(Product.objects.filter(name="View Product").exists())
 
-from .forms import ProductForm
         
 class ProductFormTest(TestCase):
     def test_negative_price(self):
