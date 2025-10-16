@@ -54,7 +54,7 @@ class ProductViewTest(TestCase):
     
     def test_product_update_view(self):
         product = Product.objects.get(name="View Product")
-        response = self.client.post(reverse('product_update', args=[product.id]), {
+        response = self.client.post(reverse('product_update', args=[product.pk]), {
             'name': 'Updated Product',
             'description': 'Updated description.',
             'price': '10.00',
