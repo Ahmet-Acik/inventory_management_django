@@ -193,3 +193,12 @@ class ProductFormTest(TestCase):
         })
         self.assertFalse(form.is_valid())
         self.assertIn('name', form.errors)
+        
+    def test_zero_price_and_quantity(self):
+        form = ProductForm(data={
+            'name': 'Zero Product',
+            'description': 'Zero values',
+            'price': 0,
+            'quantity': 0
+        })
+        self.assertTrue(form.is_valid())
