@@ -4,6 +4,8 @@ from .forms import ProductForm
 from decimal import Decimal
 from .forms import ProductForm
 from django.urls import reverse
+from django.core.exceptions import ValidationError
+
 
 class ProductModelTest(TestCase):
     
@@ -37,6 +39,17 @@ class ProductModelTest(TestCase):
         self.assertEqual(str(product), "")
     
     
+    
+    def test_negative_price_model(self):
+        product = Product(
+            name="Negative Price",
+            description="Should fail",
+            price=Decimal('-1.00'),
+            quantity=1
+        )
+        with self.assertRaises(ValidationError):
+            product.full_clean()
+            
     def test_zero_price_and_quantity(self):
         product = Product.objects.create(
             name="Zero Product",
