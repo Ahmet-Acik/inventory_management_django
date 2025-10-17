@@ -15,6 +15,18 @@ class ProductModelTest(TestCase):
             quantity=5
         )
         
+
+    def test_negative_quantity_model(self):
+        product = Product(
+            name="Negative Quantity",
+            description="Should fail",
+            price=Decimal('1.00'),
+            quantity=-1
+        )
+        with self.assertRaises(Exception):
+            product.full_clean()
+
+ 
     def test_zero_price_and_quantity(self):
         product = Product.objects.create(
             name="Zero Product",
