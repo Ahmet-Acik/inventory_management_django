@@ -115,3 +115,13 @@ class ProductFormTest(TestCase):
         })
         self.assertFalse(form.is_valid())
         self.assertIn('quantity', form.errors)
+
+    
+    def test_missing_name(self):
+        form = ProductForm(data={
+            'description': 'No name',
+            'price': 1,
+            'quantity': 1
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn('name', form.errors)
