@@ -184,3 +184,12 @@ class ProductFormTest(TestCase):
         product = form.save()
         self.assertEqual(product.price, Decimal('9999999.99'))
         
+    def test_whitespace_name(self):
+        form = ProductForm(data={
+            'name': '   ',
+            'description': 'Whitespace name.',
+            'price': 10,
+            'quantity': 5
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn('name', form.errors)
