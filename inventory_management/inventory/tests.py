@@ -35,7 +35,15 @@ class ProductModelTest(TestCase):
         )
         self.assertEqual(product.name, name)
             
- 
+    def test_missing_required_fields(self):
+        product = Product(
+            description="Missing name",
+            price=Decimal('1.00'),
+            quantity=1
+        )
+        with self.assertRaises(Exception):
+            product.full_clean()  # This will raise a ValidationError
+            
 
     def test_product_str(self):
         product = Product.objects.get(name="Test Product")
