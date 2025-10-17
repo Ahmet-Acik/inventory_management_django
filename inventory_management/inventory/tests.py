@@ -6,6 +6,7 @@ from .forms import ProductForm
 from django.urls import reverse
 
 class ProductModelTest(TestCase):
+    
     def setUp(self):
         Product.objects.create(
             name="Test Product",
@@ -13,6 +14,28 @@ class ProductModelTest(TestCase):
             price=9.99,
             quantity=5
         )
+        
+    def test_zero_price_and_quantity(self):
+        product = Product.objects.create(
+            name="Zero Product",
+            description="Zero values",
+            price=Decimal('0.00'),
+            quantity=0
+        )
+        self.assertEqual(product.price, Decimal('0.00'))
+        self.assertEqual(product.quantity, 0)
+
+    def test_max_length_name(self):
+        name = "A" * 100  # max_length is 100
+        product = Product.objects.create(
+            name=name,
+            description="Max length name",
+            price=Decimal('1.00'),
+            quantity=1
+        )
+        self.assertEqual(product.name, name)
+            
+ 
 
     def test_product_str(self):
         product = Product.objects.get(name="Test Product")
