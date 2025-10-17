@@ -162,4 +162,15 @@ class ProductFormTest(TestCase):
         product = form.save()
         self.assertEqual(product.price, Decimal('0'))
         
-    
+    def test_large_quantity(self):
+        form = ProductForm(data={
+            'name': 'Large Quantity Product',
+            'description': 'Testing large quantity.',
+            'price': 15,
+            'quantity': 1000000
+        })
+        self.assertTrue(form.is_valid())
+        product = form.save()
+        self.assertEqual(product.quantity, 1000000)
+        
+  
