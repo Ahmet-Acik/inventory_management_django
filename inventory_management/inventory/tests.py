@@ -151,3 +151,15 @@ class ProductFormTest(TestCase):
         product = form.save()
         self.assertEqual(product.quantity, 0)
         
+    def test_zero_price(self):
+        form = ProductForm(data={
+            'name': 'Zero Price Product',
+            'description': 'Testing zero price.',
+            'price': 0,
+            'quantity': 10
+        })
+        self.assertTrue(form.is_valid())
+        product = form.save()
+        self.assertEqual(product.price, Decimal('0'))
+        
+    
