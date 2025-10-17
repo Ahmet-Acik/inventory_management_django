@@ -40,8 +40,8 @@ class ProductViewTest(TestCase):
         response = self.client.get(reverse('product_list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "View Product")
- 
-        
+        self.assertTemplateUsed(response, 'inventory/product_list.html')
+
     def test_product_create_view(self):
         response = self.client.post(reverse('product_create'), {
             'name': 'Created Product',
@@ -51,6 +51,8 @@ class ProductViewTest(TestCase):
         })
         self.assertEqual(response.status_code, 302)  # Redirect after creation
         self.assertTrue(Product.objects.filter(name='Created Product').exists())
+                    # Check redirect location
+        self.assertRedirects(response, reverse('product_list'))
 
     
     def test_product_update_view(self):
@@ -93,6 +95,10 @@ class ProductViewTest(TestCase):
         response = self.client.post(reverse('product_delete', args=[product.pk]))
         self.assertEqual(response.status_code, 302)  # Redirect after deletion
         self.assertFalse(Product.objects.filter(name="View Product").exists())
+        self.assertRedirects(response, reverse('product_list'))
+
+
+
 
         
 class ProductFormTest(TestCase):
