@@ -27,6 +27,16 @@ class ProductModelTest(TestCase):
             product.full_clean()
 
  
+    def test_str_method_empty_name(self):
+        product = Product(
+            name="",
+            description="No name",
+            price=Decimal('1.00'),
+            quantity=1
+        )
+        self.assertEqual(str(product), "")
+    
+    
     def test_zero_price_and_quantity(self):
         product = Product.objects.create(
             name="Zero Product",
